@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7514c46e25466641868315f1aa5d109, type: 3}
+  m_Name: Monitor
+  m_EditorClassIdentifier: 
+  Sprites:
+  - {fileID: 8674570206963028783, guid: ca7d094024883374b93b107b390a2198, type: 3}
+  - {fileID: 2378262042390250887, guid: ca7d094024883374b93b107b390a2198, type: 3}

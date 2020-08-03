@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7aed5e9e84e11e43b5acf053d8822d3, type: 3}
+  m_Name: HumansSoundsDebugKIt
+  m_EditorClassIdentifier: 
+  Sounds:
+  - {fileID: 8300000, guid: a12ee6ebe02f4bd45a2c846c36e6e1b9, type: 3}
+  - {fileID: 8300000, guid: df13cf3bbcbb7144dbd022764f4379cc, type: 3}
+  - {fileID: 8300000, guid: cc835fd78f4091f449137bc1b44a7012, type: 3}
+  - {fileID: 8300000, guid: cebae4ff11f24ef47810542365668c05, type: 3}
