@@ -111,7 +111,7 @@ public class EntityBase : MonoBehaviour
             }
         }
         GunEquipped = GunInHands != DefaultGun;
-        Gun.Owner = this;        
+        Gun.Owner = this;
     }
     [SerializeField]
     float ThrowForce = 100;
@@ -137,9 +137,11 @@ public class EntityBase : MonoBehaviour
             GunBody.AddRelativeForce(new Vector2(0, ThrowForce), ForceMode2D.Impulse);
         }
         GunBody.AddTorque(ThrowForce * 5);
-
+        
+        GunInHands.DisablePickupTrigger(0.5f);
         PickUpGun(GunToPickUp == null ? DefaultGun : GunToPickUp);
     }
+
     bool GunEquipped = false;
     public bool HasGun()
     {
@@ -185,9 +187,12 @@ public class EntityBase : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void FixedUpdate()
     {
         GunToPickUp = null;
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
         if (collision.tag == "Gun")
         {
             GunToPickUp = collision.GetComponentInParent<GunBase>();

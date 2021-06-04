@@ -41,6 +41,18 @@ public class GunBase : MonoBehaviour
         BulletObj.GetComponent<SpriteRenderer>().color = BulletColor.Evaluate(Random.Range(0, 1f));
         return BulletObj.GetComponent<BulletMove>();
     }
+    public void DisablePickupTrigger(float Time)
+    {
+        StartCoroutine(DisableTimer());
+
+        IEnumerator DisableTimer()
+        {
+            Collider2D PickupTrigger = State.Lies.transform.GetChild(0).GetComponent<Collider2D>();
+            PickupTrigger.enabled = false;
+            yield return new WaitForSeconds(Time);
+            PickupTrigger.enabled = true;
+        }
+    }
 
     public WorldStateKeeper State;
     public GunAnimations InHands;
