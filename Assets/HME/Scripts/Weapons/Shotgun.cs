@@ -2,6 +2,8 @@
 
 public class Shotgun : GunBase
 {
+    [Header("Shotgun")]
+    [Space(10)]
     [SerializeField]
     GameObject Bullet = default;
     [SerializeField]

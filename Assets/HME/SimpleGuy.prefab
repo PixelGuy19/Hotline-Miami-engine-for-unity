@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6577916119510155034
 Transform:
   m_ObjectHideFlags: 0
@@ -381,7 +381,6 @@ MonoBehaviour:
   Speed: 7.5
   DefaultGun: {fileID: 8620260188106856862}
   ThrowForce: 100
-  GunEquipped: 0
   DieSprites: []
   DoorUnstandable: 1
   LookingDistance: 7

@@ -32,7 +32,6 @@ public class FloorEdge : MonoBehaviour
     {
         if (gameObject.layer != LayerMask.NameToLayer("Player"))
         {
-            Debug.Log("Momo");
             StartCoroutine(FadeOutCollision());
         }
         IEnumerator FadeOutCollision()

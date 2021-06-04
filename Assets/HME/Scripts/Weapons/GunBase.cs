@@ -47,10 +47,9 @@ public class GunBase : MonoBehaviour
 
         IEnumerator DisableTimer()
         {
-            Collider2D PickupTrigger = State.Lies.transform.GetChild(0).GetComponent<Collider2D>();
-            PickupTrigger.enabled = false;
+            WorldPickupTrigger.enabled = false;
             yield return new WaitForSeconds(Time);
-            PickupTrigger.enabled = true;
+            WorldPickupTrigger.enabled = true;
         }
     }
 
@@ -80,4 +79,27 @@ public class GunBase : MonoBehaviour
     }
     [Tooltip("Distance between player and AI shooter which is minimal for a shot.")]
     public float AIDistance = 6f;
+    
+    Rigidbody2D WorldBody = default;
+    Collider2D WorldCollider = default;
+    Collider2D WorldPickupTrigger = default;
+    private void Awake()
+    {
+        if (State.Lies == null)
+        {
+            return;
+        }
+
+        //Find elements of world gun
+        WorldCollider = State.Lies.GetComponent<Collider2D>();
+        WorldBody = State.Lies.GetComponent<Rigidbody2D>();
+        WorldPickupTrigger = State.Lies.transform.GetChild(0).GetComponent<Collider2D>();
+    }
+    private void FixedUpdate()
+    {
+        if (State.Lies != null)
+        {
+            WorldCollider.enabled = WorldBody.velocity != Vector2.zero;
+        }
+    }
 }

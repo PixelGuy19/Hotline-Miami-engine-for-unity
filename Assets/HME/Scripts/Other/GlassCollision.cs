@@ -14,8 +14,8 @@ public class GlassCollision : MonoBehaviour
     {
         if (!IsCrushed)
         {
-            float Rot = Mathf.Abs((int)transform.rotation.eulerAngles.z);
-            IsHorizontal = !(Rot == 90);
+            float Rotation = Mathf.Abs((int)transform.rotation.eulerAngles.z);
+            IsHorizontal = !(Rotation == 90);
             Crash(collision.transform);
             ShardsSystem.Play();
             IsCrushed = true;

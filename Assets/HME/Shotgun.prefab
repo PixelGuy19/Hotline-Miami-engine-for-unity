@@ -114,6 +114,8 @@ MonoBehaviour:
     Fatality: 
   ReloadTime: 1
   AIDistance: 10
+  WorldCollider: {fileID: 2824627916299214390}
+  WorldBody: {fileID: 2824627916299214389}
   Bullet: {fileID: 8452191292800480390, guid: 5543a31ed7a2ff54f8bf623530bb33bc, type: 3}
   SpawnPlace: {fileID: 2824627916991188100}
   BulletColor:
@@ -286,7 +288,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 5
-  m_AngularDrag: 1
+  m_AngularDrag: 5
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0

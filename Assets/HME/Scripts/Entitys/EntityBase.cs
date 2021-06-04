@@ -138,7 +138,7 @@ public class EntityBase : MonoBehaviour
         }
         GunBody.AddTorque(ThrowForce * 5);
         
-        GunInHands.DisablePickupTrigger(0.5f);
+        GunInHands.DisablePickupTrigger(0.01f);
         PickUpGun(GunToPickUp == null ? DefaultGun : GunToPickUp);
     }
 
