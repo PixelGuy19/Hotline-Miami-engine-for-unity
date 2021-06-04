@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class BlackScreen : MonoBehaviour
 {
     [SerializeField]
-    float FadeTime;
+    float FadeTime = 1;
     [SerializeField]
-    Image Screen;
+    Image Screen = default;
 
     static BlackScreen Main;
     private void Awake()

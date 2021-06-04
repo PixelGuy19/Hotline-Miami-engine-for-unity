@@ -4,7 +4,7 @@ using UnityEngine;
 public class DebugScript : MonoBehaviour
 {
     [SerializeField]
-    GameObject ToShow;
+    GameObject ToShow = default;
     private void Start()
     {
         StartCoroutine(WaitStart());

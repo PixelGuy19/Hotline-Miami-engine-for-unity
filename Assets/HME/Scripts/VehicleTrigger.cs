@@ -3,7 +3,7 @@
 public class VehicleTrigger : MonoBehaviour
 {
     [SerializeField]
-    Animator MyAnim;
+    Animator MyAnim = default;
     public static bool Closed;
     private void OnTriggerEnter2D(Collider2D collision)
     {

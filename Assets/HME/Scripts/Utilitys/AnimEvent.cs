@@ -4,7 +4,7 @@ using UnityEngine.Events;
 public class AnimEvent : MonoBehaviour
 {
     [SerializeField]
-    UnityEvent OnAnimationEvent;
+    UnityEvent OnAnimationEvent = default;
     public void InvokeEvent()
     {
         OnAnimationEvent.Invoke();

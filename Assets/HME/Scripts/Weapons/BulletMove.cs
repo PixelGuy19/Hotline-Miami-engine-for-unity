@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class BulletMove : MonoBehaviour
 {
     [SerializeField]
-    Rigidbody2D BulletRb;
+    Rigidbody2D BulletRb = default;
     public float BulletSpeed;
     private void FixedUpdate()
     {
         BulletRb.velocity = transform.up * BulletSpeed;
     }
     [SerializeField]
-    GameObject BulletHitObject;
+    GameObject BulletHitObject = default;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         EntityBase Enemy = collision.gameObject.GetComponent<EntityBase>();

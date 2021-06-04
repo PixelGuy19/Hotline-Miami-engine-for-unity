@@ -3,7 +3,7 @@
 public class StairsTrigger : MonoBehaviour
 {
     [SerializeField]
-    int ToFloor;
+    int ToFloor = 0;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (FloorManager.IsLevelStarted() && FloorManager.IsFloorCleared()

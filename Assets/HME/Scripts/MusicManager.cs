@@ -32,7 +32,7 @@ public class MusicManager : MonoBehaviour
     }
 
     [SerializeField]
-    AudioSource MusicSource;
+    AudioSource MusicSource = default;
     public bool Lock;
 
     private void Update()

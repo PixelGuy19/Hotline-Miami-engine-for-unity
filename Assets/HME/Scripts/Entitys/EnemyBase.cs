@@ -62,7 +62,7 @@ public class EnemyBase : EntityBase
     }
 
     [SerializeField]
-    Seeker Seeker;
+    Seeker Seeker = default;
     [SerializeField]
     float WaypointDistance = 0.25f;
 
@@ -166,8 +166,7 @@ public class EnemyBase : EntityBase
     [SerializeField]
     float RecheckTime = 0.5f;
     [SerializeField]
-    Way PatrolWay;
-    bool ReachedPatrolWay = true;
+    Way PatrolWay = default;
     IEnumerator Srategy() //И так, осталось допилить остальную функциональность
     {
         bool NewTargetPosFounded = false;
@@ -183,7 +182,6 @@ public class EnemyBase : EntityBase
                 StartCoroutine(ReSearch());
                 if (NewTargetPosFounded)
                 {
-                    ReachedPatrolWay = false;
                     if (GunInHands != null) 
                     {
                         if (DistanceToLastTargetPos <= GunInHands.AIDistance)
@@ -239,7 +237,7 @@ public class EnemyBase : EntityBase
     }
 
     [SerializeField]
-    bool StartFromFirstWaypoint;
+    bool StartFromFirstWaypoint = true;
     protected override void Start()
     {
         if (StartFromFirstWaypoint) { transform.position = PatrolWay.Waypoints[0]; }

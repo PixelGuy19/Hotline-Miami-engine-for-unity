@@ -3,7 +3,7 @@
 public class LevelDoor : MonoBehaviour
 {
     [SerializeField]
-    Collider2D Door;
+    Collider2D Door = default;
     private void OnTriggerExit2D(Collider2D collision)
     {
         Door.enabled = true;

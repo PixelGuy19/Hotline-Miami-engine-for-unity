@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Collections.Generic;
 
+#pragma warning disable CS0618
 [CustomEditor(typeof(Way), true)]
 public class WayEditor : Editor
 {

@@ -14,7 +14,7 @@ public class GunBase : MonoBehaviour
     public int AmmoCount = 1;
     public bool InvertAfterUse;
     [SerializeField]
-    bool InfAmmo;
+    bool InfAmmo = false;
     public bool Shoot()
     {
         if ((AmmoCount > 0 || InfAmmo) && Reloaded)
@@ -42,7 +42,7 @@ public class GunBase : MonoBehaviour
         return BulletObj.GetComponent<BulletMove>();
     }
 
-    public WorldStateKeeper State = new WorldStateKeeper();
+    public WorldStateKeeper State;
     public GunAnimations InHands;
     [System.Obsolete]
     public void SetState(bool IsInWorld)
@@ -56,12 +56,8 @@ public class GunBase : MonoBehaviour
     }
 
     [SerializeField]
-    float ReloadTime;
-    bool Reloaded;
-    private void Awake()
-    {
-        Reloaded = true;
-    }
+    float ReloadTime = 1;
+    bool Reloaded = true;
 
     [System.Serializable]
     public class GunAnimations

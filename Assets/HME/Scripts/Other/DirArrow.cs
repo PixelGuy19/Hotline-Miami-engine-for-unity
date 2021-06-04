@@ -3,9 +3,9 @@
 public class DirArrow : MonoBehaviour
 {
     [SerializeField]
-    ArrowDirection Direction;
+    ArrowDirection Direction = ArrowDirection.Up;
     [SerializeField]
-    float Offset, AnimTime = 1;
+    float Offset = 1, AnimTime = 1;
     float Timer;
     Vector2 StartArrowPos;
     private void Awake()

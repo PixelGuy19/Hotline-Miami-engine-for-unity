@@ -5,11 +5,11 @@ using UnityEngine.Tilemaps;
 public class FloorEdge : MonoBehaviour
 {
     [SerializeField]
-    Tilemap MyTilemap;
+    Tilemap MyTilemap = default;
     [SerializeField]
-    EdgeCollider2D MyEdge;
+    EdgeCollider2D MyEdge = default;
     [SerializeField]
-    int EdgeOffset;
+    int EdgeOffset = 1;
     private void Awake()
     {
         if (MyEdge == null || MyTilemap == null) { return; }

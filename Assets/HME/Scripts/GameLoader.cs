@@ -3,11 +3,11 @@
 public class GameLoader : MonoBehaviour
 {
     [SerializeField]
-    GameObject[] UniqueDontDestroyOnLoadObjects;
+    GameObject[] UniqueDontDestroyOnLoadObjects = default;
     [SerializeField]
     string FirstGameSceneName = "SampleScene";
     [SerializeField]
-    bool AutoLoadWhenLoaded;
+    bool AutoLoadWhenLoaded = true;
 
     static bool GameLoaded = false;
     private void Awake()

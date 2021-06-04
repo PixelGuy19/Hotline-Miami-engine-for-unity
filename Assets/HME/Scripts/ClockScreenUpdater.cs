@@ -11,7 +11,7 @@ public class ClockScreenUpdater : MonoBehaviour
     }
 
     [SerializeField]
-    Text TimeText, PlaceText;
+    Text TimeText = default, PlaceText = default;
     public static bool UpdateClock()
     {
         PlaceAndTimeData Data = FindObjectOfType<PlaceAndTimeData>();

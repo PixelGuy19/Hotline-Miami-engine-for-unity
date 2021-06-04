@@ -14,7 +14,7 @@ public class FloorManager : MonoBehaviour
 {
     public List<GameObject> Floors = new List<GameObject>();
     [SerializeField]
-    int FirstLevelFloorIndex, LastLevelFloorIndex;
+    int FirstLevelFloorIndex = 0, LastLevelFloorIndex = 1;
     bool LevelStarted;
     bool FloorCleared;
     bool LevelCleared;

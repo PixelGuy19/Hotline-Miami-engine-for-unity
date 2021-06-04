@@ -11,17 +11,13 @@ public class DialogManager : MonoBehaviour
         MainManager = this;
         SceneManager.activeSceneChanged += (Scene CurS, Scene NewS) => { MainManager = this; };
     }
-    private void OnLevelWasLoaded(int level)
-    {
-        MainManager = this;
-    }
 
     [SerializeField]
-    Text Content;
+    Text Content = default;
     [SerializeField]
-    DialogFaceAnim Face;
+    DialogFaceAnim Face = default;
     [SerializeField]
-    GameObject MessageDialogObj;
+    GameObject MessageDialogObj = default;
     LocalizedMessage CurrentMessage;
     public static void LoadDialog(LocalizedMessage Message = null, Action Callback = null)
     {

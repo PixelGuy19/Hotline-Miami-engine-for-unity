@@ -4,11 +4,11 @@ using UnityEngine.UI;
 public class RainbowImageBG : MonoBehaviour
 {
     [SerializeField]
-    Image MyImg;
+    Image MyImg = default;
     [SerializeField]
-    Gradient ColourScheme;
+    Gradient ColourScheme = default;
     [SerializeField]
-    float CycleTime;
+    float CycleTime = 1;
     float Timer;
     private void Update()
     {

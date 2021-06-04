@@ -4,17 +4,16 @@ using UnityEngine.UI;
 public class RainbowShadow : MonoBehaviour
 {
     [SerializeField]
-    Text MyText;
+    Text MyText = default;
     [SerializeField]
-    Shadow MyShadow;
+    Shadow MyShadow = default;
     [SerializeField]
     float CycleTime = 1;
     [SerializeField]
-    Gradient ColourScheme;
+    Gradient ColourScheme = default;
     [SerializeField]
-    Vector2 Offset;
-    float Timer;
-    string TextVal;
+    Vector2 Offset = default;
+    float Timer = 0;
     private void Update()
     {
         Timer = Mathf.PingPong(Time.time, CycleTime);

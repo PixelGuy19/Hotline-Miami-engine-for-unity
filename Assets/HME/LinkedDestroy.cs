@@ -3,7 +3,7 @@
 public class LinkedDestroy : MonoBehaviour
 {
     [SerializeField]
-    GameObject Linked;
+    GameObject Linked = default;
     private void OnDestroy()
     {
         Destroy(Linked);

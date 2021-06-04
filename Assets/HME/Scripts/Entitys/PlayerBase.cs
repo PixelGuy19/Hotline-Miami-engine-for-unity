@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerBase : EntityBase
 {
@@ -21,7 +20,7 @@ public class PlayerBase : EntityBase
     }
     [Header("Player")]
     [SerializeField]
-    GameObject FarVis;
+    GameObject FarVis = default;
     protected override void Update()
     {
         base.Update();

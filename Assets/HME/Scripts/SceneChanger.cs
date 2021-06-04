@@ -10,9 +10,9 @@ public class SceneChanger : MonoBehaviour
     }
 
     [SerializeField]
-    MusicManager MusicManager;
+    MusicManager MusicManager = default;
     [SerializeField]
-    GameObject SkylineScreen, ClockScreen;
+    GameObject SkylineScreen = default, ClockScreen = default;
     public static void LoadScene(string SceneName)
     {
         Main.MusicManager.Lock = true;

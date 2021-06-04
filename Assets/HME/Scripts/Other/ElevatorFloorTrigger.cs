@@ -5,10 +5,10 @@ using UnityEngine;
 public class ElevatorFloorTrigger : MonoBehaviour
 {
     [SerializeField]
-    SpriteAnim MyAnim;
+    SpriteAnim MyAnim = default;
     [Tooltip("If don't set elevator will go to the next floor(+1) and when all floors cleared will go to the first floor of the level.")]
     [SerializeField]
-    int ToFloor;
+    int ToFloor = 0;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (ToFloor != FloorManager.GetFloorIndex() || FloorManager.IsLevelStarted())

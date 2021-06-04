@@ -5,9 +5,9 @@ using UnityEngine;
 public class VehicleInnerTrigger : MonoBehaviour
 {
     [SerializeField]
-    Animator MyAnim;
+    Animator MyAnim = default;
     [SerializeField]
-    Transform ExitPos;
+    Transform ExitPos = default;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         StartCoroutine(DoorCloser());

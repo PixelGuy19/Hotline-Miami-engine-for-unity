@@ -110,28 +110,37 @@ public class EntityBase : MonoBehaviour
                 Body.velocity = Vector2.zero;
             }
         }
-        if (GunInHands != DefaultGun) { GunEquipped = true; }
-        Gun.Owner = this;
+        GunEquipped = GunInHands != DefaultGun;
+        Gun.Owner = this;        
     }
     [SerializeField]
     float ThrowForce = 100;
     protected void DropGun(bool Throw)
     {
+        //Check for owner
         if (GunInHands == DefaultGun || Locked) { return; }
         GunInHands.Owner = null;
+
+        //Set transform for in hands gun
         GunInHands.transform.parent = FloorManager.GetCurrentFloorObj().transform;
         GunInHands.transform.position = gameObject.transform.position;
         GunInHands.transform.rotation = Quaternion.identity;
+
+        //Set transform for lies version of gun
         GunInHands.State.Lies.transform.rotation = Quaternion.Euler(0,0, gameObject.transform.eulerAngles.z - 90);
         GunInHands.State.SetWorldState(WorldState.Lies);
-        Rigidbody2D GunBody = GunInHands.State.Lies.GetComponentInChildren<Rigidbody2D>();
-        if (Throw) { GunBody.AddRelativeForce(new Vector2(0, ThrowForce), ForceMode2D.Impulse); }
+
+        Rigidbody2D GunBody = GunInHands.State.Lies.GetComponentInChildren<Rigidbody2D>();        
+        if (Throw)
+        {
+            //Throw gun if it need
+            GunBody.AddRelativeForce(new Vector2(0, ThrowForce), ForceMode2D.Impulse);
+        }
         GunBody.AddTorque(ThrowForce * 5);
 
-        PickUpGun(DefaultGun);
-        GunEquipped = false;
+        PickUpGun(GunToPickUp == null ? DefaultGun : GunToPickUp);
     }
-    public bool GunEquipped = false;
+    bool GunEquipped = false;
     public bool HasGun()
     {
         return GunEquipped;
@@ -178,6 +187,7 @@ public class EntityBase : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        GunToPickUp = null;
         if (collision.tag == "Gun")
         {
             GunToPickUp = collision.GetComponentInParent<GunBase>();

@@ -8,9 +8,9 @@ public class DialogFaceAnim : MonoBehaviour
     public Sprite[] Animation;
     public float AnimTime;
     [SerializeField]
-    float CycleTime;
+    float CycleTime = 1;
     [SerializeField]
-    Image MyImg;
+    Image MyImg = default;
 
     float Timer;
     float AnimTimer;

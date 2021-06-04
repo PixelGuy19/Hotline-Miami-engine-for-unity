@@ -3,11 +3,11 @@
 public class Shotgun : GunBase
 {
     [SerializeField]
-    GameObject Bullet;
+    GameObject Bullet = default;
     [SerializeField]
-    GameObject SpawnPlace;
+    GameObject SpawnPlace = default;
     [SerializeField]
-    Gradient BulletColor;
+    Gradient BulletColor = default;
     [SerializeField]
     float BulletScatter = 10;
     protected override void Use()

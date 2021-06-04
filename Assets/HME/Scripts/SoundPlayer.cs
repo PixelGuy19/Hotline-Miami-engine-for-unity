@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 public class SoundPlayer : MonoBehaviour
 {
     [SerializeField]
-    SoundList SoundList;
+    SoundList SoundList = default;
     AudioSource AudioPlayer;
     private void Awake()
     {
