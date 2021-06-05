@@ -2,18 +2,14 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(EdgeCollider2D))]
 public class FloorEdge : MonoBehaviour
 {
-    [SerializeField]
-    Tilemap MyTilemap = default;
-    [SerializeField]
-    EdgeCollider2D MyEdge = default;
-    [SerializeField]
-    int EdgeOffset = 1;
-    private void Awake()
+    public void UpdateEdge()
     {
-        if (MyEdge == null || MyTilemap == null) { return; }
-
+        EdgeCollider2D MyEdge = GetComponent<EdgeCollider2D>();
+        Tilemap MyTilemap = FloorManager.GetCurrentFloorObj().GetComponent<Tilemap>();
+        MyTilemap.CompressBounds();
         MyEdge.points = new Vector2[]
         {
             (Vector2Int)MyTilemap.cellBounds.min +
@@ -27,6 +23,13 @@ public class FloorEdge : MonoBehaviour
             (Vector2Int)MyTilemap.cellBounds.min
             + (Vector2)MyTilemap.tileAnchor + new Vector2(-EdgeOffset,-EdgeOffset)
         };
+    }
+
+    [SerializeField]
+    int EdgeOffset = 1;
+    private void Awake()
+    {
+        //UpdateEdge();      
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

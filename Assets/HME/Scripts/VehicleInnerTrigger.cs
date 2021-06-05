@@ -10,35 +10,38 @@ public class VehicleInnerTrigger : MonoBehaviour
     Transform ExitPos = default;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        StartCoroutine(DoorCloser());
-        IEnumerator DoorCloser()
+        if (collision.tag == "Player")
         {
-            if(ExitPos == null) { yield break; }
+            StartCoroutine(DoorCloser());
+            IEnumerator DoorCloser()
+            {
+                if (ExitPos == null) { yield break; }
 
-            PlayerBase.LockControls(true);
-            MyAnim.SetBool("IsOpened", false);
-            yield return new WaitForSeconds(1f);
+                PlayerBase.LockControls(true);
+                MyAnim.SetBool("IsOpened", false);
+                yield return new WaitForSeconds(1f);
 
-            GameObject StartScreen = Resources.FindObjectsOfTypeAll<GameObject>()
-                .Where((GameObject Obj) => Obj.name == "LevelStartScreen").First(); //Replace this shit
-            BlackScreen.ShowScreen(StartScreen, 1, 3, () =>
-               {
-                   if (FloorManager.IsLevelCleared())
+                GameObject StartScreen = Resources.FindObjectsOfTypeAll<GameObject>()
+                    .Where((GameObject Obj) => Obj.name == "LevelStartScreen").First(); //Replace this shit
+                BlackScreen.ShowScreen(StartScreen, 1, 3, () =>
                    {
-                       FloorManager.SetFloor(FloorManager.GetFloorIndex() + 1);
-                   }
-                   else
-                   {
-                       FloorManager.SetFloor(FloorManager.GetFirstFloorIndex());
-                   }
+                       if (FloorManager.IsLevelCleared())
+                       {
+                           FloorManager.SetFloor(FloorManager.GetFloorIndex() + 1);
+                       }
+                       else
+                       {
+                           FloorManager.SetFloor(FloorManager.GetFirstFloorIndex());
+                       }
 
-                   collision.transform.position = ExitPos.position;
-                   VehicleTrigger.Closed = true;
-               },
-              () =>
-              {
-                  PlayerBase.LockControls(false);
-              });
+                       collision.transform.position = ExitPos.position;
+                       VehicleTrigger.Closed = true;
+                   },
+                  () =>
+                  {
+                      PlayerBase.LockControls(false);
+                  });
+            }
         }
     }
 }

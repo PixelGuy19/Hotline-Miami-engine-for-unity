@@ -4,13 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 using Pathfinding;
 
 #if UNITY_EDITOR
 [ExecuteInEditMode]
 #endif
-public class FloorManager : MonoBehaviour
+public sealed class FloorManager : MonoBehaviour
 {
     public List<GameObject> Floors = new List<GameObject>();
     [SerializeField]
@@ -40,15 +40,15 @@ public class FloorManager : MonoBehaviour
             SetMain();
         }
     }
-#endif
-
     private void OnValidate()
     {
         if (FirstLevelFloorIndex < 0) { FirstLevelFloorIndex = 0; }
         if (LastLevelFloorIndex >= Floors.Count) { FirstLevelFloorIndex = Floors.Count - 1; }
         if (FirstLevelFloorIndex >= LastLevelFloorIndex) { FirstLevelFloorIndex = LastLevelFloorIndex; }
     }
-    public static FloorManager Main { get; protected set; }
+#endif
+
+    public static FloorManager Main { get; private set; }
     private void Awake()
     {
         SetMain();
@@ -71,7 +71,7 @@ public class FloorManager : MonoBehaviour
         {
             yield return null;
             SetFloor(0);
-            RecalculatePathfindingArea(Floors.Where((F) => F.activeSelf).First());
+            UpdatePathfindingArea(Floors.Where((F) => F.activeSelf).First());
             UpdateOnFloorActivatorObjects();
         }
     }
@@ -82,6 +82,11 @@ public class FloorManager : MonoBehaviour
         if(Main == null) { return 0; }
         return Main.CurrentFloorIndex;
     }
+
+    [SerializeField]
+    AstarPath Pathfinder = default;
+    [SerializeField]
+    FloorEdge Edge = default;
     public static void SetFloor(int Floor)
     {
         if(Main == null) { return; }
@@ -96,7 +101,9 @@ public class FloorManager : MonoBehaviour
         {
             Main.Floors[i].SetActive(i == Main.CurrentFloorIndex);
         }
-        RecalculatePathfindingArea(Main.Floors[Floor]);
+        UpdatePathfindingArea(Main.Floors[Floor]);
+        Main.Edge.UpdateEdge();
+
         if (Main.FirstLevelFloorIndex <= Main.CurrentFloorIndex 
             && !Main.LevelStarted) { Main.LevelStarted = true; }
         
@@ -149,9 +156,7 @@ public class FloorManager : MonoBehaviour
     }
 
     public static float NodeSize { get; private set; }
-    [SerializeField]
-    protected AstarPath Pathfinder;
-    static void RecalculatePathfindingArea(GameObject WallsTilemap)
+    static void UpdatePathfindingArea(GameObject WallsTilemap)
     {
         if (!Application.isPlaying) { return; }
 
