@@ -674,6 +674,7 @@ MonoBehaviour:
   DefaultGun: {fileID: 591875894}
   ThrowForce: 100
   DieSprites: []
+  DieTime: 0.01
   RotationSpeed: 20
   DoorUnstandable: 0
   LookingDistance: 7
@@ -1139,116 +1140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &439148975
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1258454824}
-    m_Modifications:
-    - target: {fileID: 6577916121069969053, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: PatrolWay
-      value: 
-      objectReference: {fileID: 462267194}
-    - target: {fileID: 6577916121069969053, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: PatrolMethod
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121069969053, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: StartFromFirstWaypoint
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121069969053, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: RotationSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121069969060, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121069969060, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 4.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 4.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577916121420807731, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: m_Name
-      value: SimpleGuy (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8620260188106856862, guid: fc1c46627981a0c498a6d332c75930cf,
-        type: 3}
-      propertyPath: AIDistance
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fc1c46627981a0c498a6d332c75930cf, type: 3}
---- !u!4 &439148976 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
-    type: 3}
-  m_PrefabInstance: {fileID: 439148975}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &461832907 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
@@ -5165,6 +5056,7 @@ MonoBehaviour:
   DefaultGun: {fileID: 415113299}
   ThrowForce: 100
   DieSprites: []
+  DieTime: 0.01
   RotationSpeed: 20
   DoorUnstandable: 0
   LookingDistance: 7
@@ -7480,9 +7372,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1058916186}
   - component: {fileID: 1058916185}
-  - component: {fileID: 1058916184}
   - component: {fileID: 1058916183}
-  - component: {fileID: 1058916182}
   m_Layer: 0
   m_Name: Mikhail
   m_TagString: Untagged
@@ -7490,29 +7380,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1058916182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1058916181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19979b4739771714ea296db43e0c54de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StateKeeper: {fileID: 0}
-  SoundPlayer: {fileID: 0}
-  MyAnim: {fileID: 0}
-  LegsAnim: {fileID: 0}
-  MyBody: {fileID: 0}
-  MyLegs: {fileID: 0}
-  Speed: 10
-  DefaultGun: {fileID: 0}
-  ThrowForce: 100
-  DieSprites: []
-  RotationSpeed: 20
 --- !u!95 &1058916183
 Animator:
   serializedVersion: 3
@@ -7532,27 +7399,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!50 &1058916184
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1058916181}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!212 &1058916185
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8278,7 +8124,6 @@ Transform:
   - {fileID: 36562888}
   - {fileID: 1999972296}
   - {fileID: 975935595}
-  - {fileID: 439148976}
   - {fileID: 1401379714}
   m_Father: {fileID: 702082406}
   m_RootOrder: 0
@@ -10418,6 +10263,7 @@ MonoBehaviour:
   DefaultGun: {fileID: 141412974}
   ThrowForce: 100
   DieSprites: []
+  DieTime: 0.01
   RotationSpeed: 20
   DoorUnstandable: 0
   LookingDistance: 7
@@ -10563,6 +10409,16 @@ PrefabInstance:
       propertyPath: RotationSpeed
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 6577916121069969053, guid: fc1c46627981a0c498a6d332c75930cf,
+        type: 3}
+      propertyPath: Speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6577916121069969053, guid: fc1c46627981a0c498a6d332c75930cf,
+        type: 3}
+      propertyPath: ReturnAfter
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6577916121069969060, guid: fc1c46627981a0c498a6d332c75930cf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10611,7 +10467,7 @@ PrefabInstance:
     - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
         type: 3}
@@ -15897,7 +15753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyMessage: {fileID: 11400000, guid: 66d175487fab22b43acd3870f621a06e, type: 2}
   Forced: 1
-  Speaker: {fileID: 1058916182}
+  Speaker: {fileID: 0}
 --- !u!1 &1592375492
 GameObject:
   m_ObjectHideFlags: 0
@@ -17476,6 +17332,7 @@ MonoBehaviour:
   ThrowForce: 80
   DieSprites:
   - {fileID: -3034859886185345707, guid: 0deb3effa71a7954eaea996570d94924, type: 3}
+  DieTime: 0.01
   RotationSpeed: 20
   FarVis: {fileID: 1049405500}
 --- !u!50 &1706182724

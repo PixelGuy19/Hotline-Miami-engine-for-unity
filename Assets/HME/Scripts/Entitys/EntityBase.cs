@@ -27,8 +27,9 @@ public class EntityBase : MonoBehaviour
         if (DefaultGun != null) { PickUpGun(DefaultGun); }
     }
     //Use this method to reboot entity after disabling
-    protected virtual void OnEnable()
-    {
+    public virtual void OnEnable()
+    {        
+        Move(0, 0);
     }
     
     [SerializeField]
@@ -169,25 +170,26 @@ public class EntityBase : MonoBehaviour
         }
     }
     public Sprite[] DieSprites;
+    public float DieTime = 0.01f;
     public void Die(bool Fully = true, GameObject Killer = null)
     {
         Move(0, 0);
-        DropGun(false);
         Locked = true;
-
-        if (Killer != null)
-        {
-            InstantLookAt(Killer.transform.position);
-            transform.eulerAngles += new Vector3(0, 0, 180);
-        }
         StartCoroutine(Die());
 
         IEnumerator Die()
         {
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(DieTime);
 
+            DropGun(false);
+            if (Killer != null)
+            {
+                InstantLookAt(Killer.transform.position, StateKeeper.Lies);
+                StateKeeper.Lies.transform.eulerAngles += new Vector3(0, 0, 180);
+            }
             if (!Fully)
             {
+                StopAllCoroutines();
                 StateKeeper.StartCoroutine(StandUp());
             }
             StateKeeper.SetWorldState(WorldState.Lies);
@@ -196,7 +198,8 @@ public class EntityBase : MonoBehaviour
         {
             yield return new WaitForSeconds(2);
             Locked = false;
-            StateKeeper.SetWorldState(WorldState.Stand);            
+            StateKeeper.SetWorldState(WorldState.Stand);
+            OnEnable();
         }
     }
 
@@ -204,9 +207,12 @@ public class EntityBase : MonoBehaviour
     float RotationSpeed = 20f;
     private void FixedUpdate()
     {
-        //Remove gun to make items rotation
         GunToPickUp = null;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, Angle), Time.deltaTime * RotationSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, Angle), Time.fixedDeltaTime * RotationSpeed);
+        if (Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.z, Angle)) < 5)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, Angle);
+        }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {

@@ -15,7 +15,7 @@ public class EnemyBase : EntityBase
 
     [Header("AI")]
     [SerializeField]
-    bool DoorUnstandable;
+    bool DoorUnstandable = false;
     [SerializeField]
     float LookingDistance = 7;
 
@@ -67,7 +67,7 @@ public class EnemyBase : EntityBase
     float WaypointDistance = 0.25f;
 
     Coroutine MovingCoroutine;
-    protected void MoveTo(Vector2 Position, bool CutPath = false, Action OnReached = null) //Rework this method to "confetca" condition
+    protected void MoveTo(Vector2 Position, bool CutPath = false, Action OnReached = null)
     {
         if (!gameObject.activeSelf) { return; }
         if (Seeker.IsDone())
@@ -105,11 +105,11 @@ public class EnemyBase : EntityBase
     {
         if (GunInHands == null) { return; }
         LookAt(Position);
-        Debug.Log($"Distance {DistanceToLastTargetPos}/{LookingDistance}({DistanceToLastTargetPos / LookingDistance * 100}%)" +
-            $"\n Tolerance angle = {(5 - 5 * DistanceToLastTargetPos / LookingDistance)}" +
-            $"\n Angle to rot = {Mathf.Abs(Mathf.DeltaAngle(transform.rotation.eulerAngles.z, Angle))}");
-        //(5 - 5 * DistanceToLastTargetPos / LookingDistance)
-        if (Mathf.Abs(Mathf.DeltaAngle(transform.rotation.eulerAngles.z, Angle)) < GunInHands.Spread / 2) { Shoot(); }
+        if (Mathf.Abs(Mathf.DeltaAngle(transform.rotation.eulerAngles.z, Angle)) //Angle to rotate
+            < GunInHands.Spread / 2) //Half of spread degrees
+        {
+            Shoot();
+        }
     }
 
     bool IsMoving;
@@ -148,11 +148,12 @@ public class EnemyBase : EntityBase
             StartCoroutine(PatrolMove());
             IEnumerator PatrolMove()
             {
-                Move(transform.right); //TODO: Make absolete rotation
+                Move(transform.right);
                 int Mask =~ LayerMask.GetMask("Ignore Raycast", "Door");
-                RaycastHit2D ForwardCheck = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 0.8f, 
-                    Mask);
-                if (ForwardCheck.transform != null)
+                //RaycastHit2D ForwardCheck = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 0.8f, 
+                //    Mask);
+                Collider2D Wall = Physics2D.OverlapCircle(transform.position + transform.right, 0.1f);
+                if (Wall != null)
                 {
                     Angle = transform.eulerAngles.z - 90;
                     yield return WaitForLookAt();
@@ -163,7 +164,8 @@ public class EnemyBase : EntityBase
             IEnumerator WaitForLookAt()
             {
                 Move(0, 0);
-                yield return new WaitWhile(() => Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.z, Angle)) > 1);
+                yield return new WaitWhile(() => 
+                Mathf.Round(Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.z, Angle))) > 0);
             }
         }        
     }
@@ -231,7 +233,6 @@ public class EnemyBase : EntityBase
             }
             if (ReturnAfter)
             {
-                transform.rotation = Quaternion.identity;
                 MoveTo(PatrolWay.Waypoints[0], default, Patrol);
             }
             else { Patrol(); }
@@ -245,11 +246,13 @@ public class EnemyBase : EntityBase
             }
         }
     }
-    public void Reboot()
+    public override void OnEnable()
     {
+        base.OnEnable();
         PickUpGun(DefaultGun);
         DefaultGun = null;
         StartCoroutine(Srategy());
+        if (GunInHands != null) { MyAnim.Play(GunInHands.InHands.Moving); }
         Patrol();
     }
 
@@ -258,17 +261,13 @@ public class EnemyBase : EntityBase
     protected override void Start()
     {
         if (StartFromFirstWaypoint) { transform.position = PatrolWay.Waypoints[0]; }
-        Reboot();
+        OnEnable();
         base.Start();
-    }
-    private void OnEnable()
-    {
-        Reboot();
-        if (GunInHands != null) { MyAnim.Play(GunInHands.InHands.Moving); }
     }
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, LookingDistance);
+        Gizmos.DrawWireSphere(transform.position + transform.right, 0.1f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
