@@ -148,16 +148,22 @@ public class EnemyBase : EntityBase
             StartCoroutine(PatrolMove());
             IEnumerator PatrolMove()
             {
-                Move(transform.right);
+                Move(transform.right); //TODO: Make absolete rotation
                 int Mask =~ LayerMask.GetMask("Ignore Raycast", "Door");
-                RaycastHit2D ForwardCheck = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 1, 
+                RaycastHit2D ForwardCheck = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 0.8f, 
                     Mask);
                 if (ForwardCheck.transform != null)
                 {
-                    transform.eulerAngles -= new Vector3(0, 0, 90f);
+                    Angle = transform.eulerAngles.z - 90;
+                    yield return WaitForLookAt();
                 }
                 yield return new WaitForFixedUpdate();
                 if (IsStoped() && !Locked) { Patrol(); }
+            }
+            IEnumerator WaitForLookAt()
+            {
+                Move(0, 0);
+                yield return new WaitWhile(() => Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.z, Angle)) > 1);
             }
         }        
     }

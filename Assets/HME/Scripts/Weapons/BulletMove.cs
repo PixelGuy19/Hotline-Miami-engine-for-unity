@@ -18,6 +18,7 @@ public class BulletMove : MonoBehaviour
         if (Enemy != null)
         {
             Enemy.Die(true, gameObject);
+            Destroy(gameObject);
             return;
         }
 

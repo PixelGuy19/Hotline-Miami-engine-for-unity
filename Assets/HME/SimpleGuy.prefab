@@ -378,7 +378,7 @@ MonoBehaviour:
   LegsAnim: {fileID: 6577916120021406526}
   MyBody: {fileID: 6577916121069969056}
   MyLegs: {fileID: 6577916120021406528}
-  Speed: 7.5
+  Speed: 3.5
   DefaultGun: {fileID: 8620260188106856862}
   ThrowForce: 100
   DieSprites: []

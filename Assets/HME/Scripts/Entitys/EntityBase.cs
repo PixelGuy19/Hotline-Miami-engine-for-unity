@@ -26,8 +26,11 @@ public class EntityBase : MonoBehaviour
         if(StateKeeper == null) { StateKeeper = GetComponentInParent<WorldStateKeeper>(); }
         if (DefaultGun != null) { PickUpGun(DefaultGun); }
     }
-
-    //Base
+    //Use this method to reboot entity after disabling
+    protected virtual void OnEnable()
+    {
+    }
+    
     [SerializeField]
     protected Rigidbody2D MyBody;
     protected float Angle = 0f;
@@ -45,6 +48,7 @@ public class EntityBase : MonoBehaviour
 
         Vector2 Direction = (Vector2)Position - (Vector2)transform.position;
         Object.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg);
+        Angle = Object.transform.eulerAngles.z;
     }
 
     public GameObject MyLegs;
@@ -87,13 +91,14 @@ public class EntityBase : MonoBehaviour
     //Guns
     [SerializeField]
     protected GunBase DefaultGun;
+    const float PickupDistance = 0.75f;
     GunBase GunToPickUp;
     [HideInInspector]
     public GunBase GunInHands { get; private set; }
     protected void PickUpGun()
     {
         if (GunToPickUp == null ||
-        Vector2.Distance(GunToPickUp.State.Lies.transform.position, gameObject.transform.position) > 0.75f) { return; }
+        Vector2.Distance(GunToPickUp.State.Lies.transform.position, gameObject.transform.position) > PickupDistance) { return; }
         PickUpGun(GunToPickUp);
         SoundPlayer.PlaySound("PickUpWeapon");
     }
@@ -172,21 +177,26 @@ public class EntityBase : MonoBehaviour
 
         if (Killer != null)
         {
-            LookAt(Killer.transform.position);
+            InstantLookAt(Killer.transform.position);
             transform.eulerAngles += new Vector3(0, 0, 180);
         }
+        StartCoroutine(Die());
 
-        if (!Fully)
+        IEnumerator Die()
         {
-            StateKeeper.StartCoroutine(StandUp());
-        }
-        StateKeeper.SetWorldState(WorldState.Lies);
+            yield return new WaitForSeconds(0.01f);
 
+            if (!Fully)
+            {
+                StateKeeper.StartCoroutine(StandUp());
+            }
+            StateKeeper.SetWorldState(WorldState.Lies);
+        }
         IEnumerator StandUp()
         {
             yield return new WaitForSeconds(2);
             Locked = false;
-            StateKeeper.SetWorldState(WorldState.Stand);
+            StateKeeper.SetWorldState(WorldState.Stand);            
         }
     }
 
