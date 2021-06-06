@@ -30,18 +30,21 @@ public class EntityBase : MonoBehaviour
     //Base
     [SerializeField]
     protected Rigidbody2D MyBody;
-    public void LookAt(Vector3 Position, GameObject Obj = null)
+    protected float Angle = 0f;
+    public void LookAt(Vector3 Position)
     {
         Vector2 Direction = (Vector2)Position - (Vector2)transform.position;
-        float Angle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg - 90;
-        if (Obj != null)
+        Angle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg;
+    }
+    public void InstantLookAt(Vector3 Position, GameObject Object = null)
+    {
+        if (Object == null)
         {
-            Obj.transform.rotation = Quaternion.Euler(0f, 0f, Angle + 90);
+            Object = gameObject;
         }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0f, 0f, Angle + 90);
-        }
+
+        Vector2 Direction = (Vector2)Position - (Vector2)transform.position;
+        Object.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg);
     }
 
     public GameObject MyLegs;
@@ -56,7 +59,7 @@ public class EntityBase : MonoBehaviour
         MyBody.velocity = new Vector2(X, Y);
         if (Mathf.Abs(X) != 0 || Mathf.Abs(Y) != 0)
         {
-            LookAt(transform.position + new Vector3(X, Y), MyLegs);
+            InstantLookAt(transform.position + new Vector3(X, Y), MyLegs);
             MyAnim.SetFloat("WalkingSpeed", 1);
         }
         else
@@ -187,9 +190,13 @@ public class EntityBase : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    float RotationSpeed = 20f;
     private void FixedUpdate()
     {
+        //Remove gun to make items rotation
         GunToPickUp = null;
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, Angle), Time.deltaTime * RotationSpeed);
     }
     private void OnTriggerStay2D(Collider2D collision)
     {

@@ -10,8 +10,6 @@ public class Shotgun : GunBase
     GameObject SpawnPlace = default;
     [SerializeField]
     Gradient BulletColor = default;
-    [SerializeField]
-    float BulletScatter = 10;
     protected override void Use()
     {
         Shoot(Random.Range(6, 12));
@@ -21,7 +19,7 @@ public class Shotgun : GunBase
         for (int i = 0; i < Bullets; i++)
         {
             CreateBullet(Bullet, SpawnPlace, 
-                Random.Range(-BulletScatter, BulletScatter), 
+                Random.Range(-Spread, Spread), 
                 BulletColor).BulletSpeed *= Random.Range(0.7f, 1f);
         }
         Owner?.SoundPlayer.PlaySound("Shotgun");

@@ -67,7 +67,7 @@ public class EnemyBase : EntityBase
     float WaypointDistance = 0.25f;
 
     Coroutine MovingCoroutine;
-    protected void MoveTo(Vector2 Position, bool CutPath = false, Action OnReached = null)
+    protected void MoveTo(Vector2 Position, bool CutPath = false, Action OnReached = null) //Rework this method to "confetca" condition
     {
         if (!gameObject.activeSelf) { return; }
         if (Seeker.IsDone())
@@ -83,7 +83,7 @@ public class EnemyBase : EntityBase
         {
             IsMoving = true;
 
-            int Cutout = GunInHands == null ? 0 : (int)GunInHands.AIDistance;
+            int Cutout = GunInHands == null ? 0 : (int)GunInHands.MinShootDistance;
             if (!CutPath) { Cutout = 0; }
 
             for (int i = 1; i < CurrentPath.vectorPath.Count - Cutout; i++)
@@ -104,9 +104,12 @@ public class EnemyBase : EntityBase
     protected void ShootTo(Vector2 Position)
     {
         if (GunInHands == null) { return; }
-
         LookAt(Position);
-        Shoot();
+        Debug.Log($"Distance {DistanceToLastTargetPos}/{LookingDistance}({DistanceToLastTargetPos / LookingDistance * 100}%)" +
+            $"\n Tolerance angle = {(5 - 5 * DistanceToLastTargetPos / LookingDistance)}" +
+            $"\n Angle to rot = {Mathf.Abs(Mathf.DeltaAngle(transform.rotation.eulerAngles.z, Angle))}");
+        //(5 - 5 * DistanceToLastTargetPos / LookingDistance)
+        if (Mathf.Abs(Mathf.DeltaAngle(transform.rotation.eulerAngles.z, Angle)) < GunInHands.Spread / 2) { Shoot(); }
     }
 
     bool IsMoving;
@@ -176,17 +179,25 @@ public class EnemyBase : EntityBase
         {
             if (NewTargetPosFounded)
             {
-                Move(0, 0);
                 yield return new WaitForSeconds(RecheckTime);
 
-                StartCoroutine(ReSearch());
+                StartCoroutine(Research());
                 if (NewTargetPosFounded)
                 {
                     if (GunInHands != null) 
                     {
-                        if (DistanceToLastTargetPos <= GunInHands.AIDistance)
-                        { ShootTo(LastTargetPos); }
-                        else { MoveTo(LastTargetPos, true); } 
+                        if (DistanceToLastTargetPos < LookingDistance)
+                        {
+                            ShootTo(LastTargetPos);
+                        }
+                        if (DistanceToLastTargetPos > GunInHands.MinShootDistance)
+                        {
+                            MoveTo(LastTargetPos);
+                        }
+                        else
+                        {
+                            ForcedStop();
+                        }
                     }
                     else
                     {
@@ -202,7 +213,7 @@ public class EnemyBase : EntityBase
             yield return new WaitForEndOfFrame();
         }
 
-        IEnumerator ReSearch()
+        IEnumerator Research()
         {
             for (float i = 0; i < RefoundTime; i += 0.1f)
             {
@@ -228,7 +239,7 @@ public class EnemyBase : EntityBase
             }
         }
     }
-    public void RebootMyBrain()
+    public void Reboot()
     {
         PickUpGun(DefaultGun);
         DefaultGun = null;
@@ -241,12 +252,12 @@ public class EnemyBase : EntityBase
     protected override void Start()
     {
         if (StartFromFirstWaypoint) { transform.position = PatrolWay.Waypoints[0]; }
-        RebootMyBrain();
+        Reboot();
         base.Start();
     }
     private void OnEnable()
     {
-        RebootMyBrain();
+        Reboot();
         if (GunInHands != null) { MyAnim.Play(GunInHands.InHands.Moving); }
     }
     private void OnDrawGizmos()
@@ -254,17 +265,16 @@ public class EnemyBase : EntityBase
         Gizmos.DrawWireSphere(transform.position, LookingDistance);
     }
 
-    // In last version i tryed made door faling, but it don't work
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.TryGetComponent<Door>(out Door NextDoor))
-    //    {
-    //        if (DoorUnstandable)
-    //        {
-    //            Die(false, NextDoor.gameObject);
-    //        }
-    //    }
-    //}
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<Door>(out Door NextDoor))
+        {
+            if (DoorUnstandable && NextDoor.GetComponent<Rigidbody2D>().velocity != Vector2.zero)
+            {
+                Die(false, NextDoor.gameObject);
+            }
+        }
+    }
 
     public enum PatrolMode { Path, AroundWall, StandStill }
 }

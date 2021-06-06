@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -191,7 +191,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 67763320}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.62, y: -0.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1789495392}
@@ -674,6 +674,7 @@ MonoBehaviour:
   DefaultGun: {fileID: 591875894}
   ThrowForce: 100
   DieSprites: []
+  RotationSpeed: 20
   DoorUnstandable: 0
   LookingDistance: 7
   Seeker: {fileID: 255087936}
@@ -1150,6 +1151,21 @@ PrefabInstance:
       propertyPath: PatrolWay
       value: 
       objectReference: {fileID: 462267194}
+    - target: {fileID: 6577916121069969053, guid: fc1c46627981a0c498a6d332c75930cf,
+        type: 3}
+      propertyPath: PatrolMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6577916121069969053, guid: fc1c46627981a0c498a6d332c75930cf,
+        type: 3}
+      propertyPath: StartFromFirstWaypoint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6577916121069969053, guid: fc1c46627981a0c498a6d332c75930cf,
+        type: 3}
+      propertyPath: RotationSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 6577916121069969060, guid: fc1c46627981a0c498a6d332c75930cf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1163,12 +1179,12 @@ PrefabInstance:
     - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.97
       objectReference: {fileID: 0}
     - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.93
       objectReference: {fileID: 0}
     - target: {fileID: 6577916121420807729, guid: fc1c46627981a0c498a6d332c75930cf,
         type: 3}
@@ -1219,6 +1235,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SimpleGuy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8620260188106856862, guid: fc1c46627981a0c498a6d332c75930cf,
+        type: 3}
+      propertyPath: AIDistance
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc1c46627981a0c498a6d332c75930cf, type: 3}
@@ -5143,6 +5164,7 @@ MonoBehaviour:
   DefaultGun: {fileID: 415113299}
   ThrowForce: 100
   DieSprites: []
+  RotationSpeed: 20
   DoorUnstandable: 0
   LookingDistance: 7
   Seeker: {fileID: 938748524}
@@ -7489,6 +7511,7 @@ MonoBehaviour:
   DefaultGun: {fileID: 0}
   ThrowForce: 100
   DieSprites: []
+  RotationSpeed: 20
 --- !u!95 &1058916183
 Animator:
   serializedVersion: 3
@@ -10393,6 +10416,7 @@ MonoBehaviour:
   DefaultGun: {fileID: 141412974}
   ThrowForce: 100
   DieSprites: []
+  RotationSpeed: 20
   DoorUnstandable: 0
   LookingDistance: 7
   Seeker: {fileID: 1315137179}
@@ -17340,6 +17364,7 @@ MonoBehaviour:
   ThrowForce: 80
   DieSprites:
   - {fileID: -3034859886185345707, guid: 0deb3effa71a7954eaea996570d94924, type: 3}
+  RotationSpeed: 20
   FarVis: {fileID: 1049405500}
 --- !u!50 &1706182724
 Rigidbody2D:

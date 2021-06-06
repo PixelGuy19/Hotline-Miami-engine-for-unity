@@ -382,6 +382,7 @@ MonoBehaviour:
   DefaultGun: {fileID: 8620260188106856862}
   ThrowForce: 100
   DieSprites: []
+  RotationSpeed: 50
   DoorUnstandable: 1
   LookingDistance: 7
   Seeker: {fileID: 6577916121069969059}
@@ -389,7 +390,7 @@ MonoBehaviour:
   PatrolMethod: 1
   RefoundTime: 2
   ReturnAfter: 0
-  RecheckTime: 0.35
+  RecheckTime: 0.01
   PatrolWay: {fileID: 0}
   StartFromFirstWaypoint: 0
 --- !u!114 &6577916121069969059
@@ -607,6 +608,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824627915798893480, guid: 5abb8975dee7525479923f08ff3411bd,
+        type: 3}
+      propertyPath: AIDistance
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2824627915798893481, guid: 5abb8975dee7525479923f08ff3411bd,
         type: 3}

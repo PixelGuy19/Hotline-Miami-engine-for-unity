@@ -12,6 +12,7 @@ public class GunBase : MonoBehaviour
 
     //Amount of gun usings
     public int AmmoCount = 1;
+    public float Spread = 5f;
     public bool InvertAfterUse;
     [SerializeField]
     bool InfAmmo = false;
@@ -78,7 +79,7 @@ public class GunBase : MonoBehaviour
         public string Fatality;
     }
     [Tooltip("Distance between player and AI shooter which is minimal for a shot.")]
-    public float AIDistance = 6f;
+    public float MinShootDistance = 6f;
     
     Rigidbody2D WorldBody = default;
     Collider2D WorldCollider = default;
