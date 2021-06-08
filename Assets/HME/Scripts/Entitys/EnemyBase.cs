@@ -150,8 +150,6 @@ public class EnemyBase : EntityBase
             {
                 Move(transform.right);
                 int Mask =~ LayerMask.GetMask("Ignore Raycast", "Door");
-                //RaycastHit2D ForwardCheck = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 0.8f, 
-                //    Mask);
                 Collider2D Wall = Physics2D.OverlapCircle(transform.position + transform.right, 0.1f);
                 if (Wall != null)
                 {
@@ -181,6 +179,7 @@ public class EnemyBase : EntityBase
     IEnumerator Srategy() //И так, осталось допилить остальную функциональность
     {
         bool NewTargetPosFounded = false;
+        Vector2 ChaseStartPlace = transform.position;
 
         StartCoroutine(Looking());
         while (true)
@@ -217,7 +216,7 @@ public class EnemyBase : EntityBase
                     MoveTo(LastTargetPos);
                 }
             }
-
+            
             yield return new WaitForEndOfFrame();
         }
 
@@ -227,13 +226,14 @@ public class EnemyBase : EntityBase
             {
                 if (NewTargetPosFounded)
                 {
+                    ChaseStartPlace = transform.position;
                     yield break;
                 }
                 yield return new WaitForSeconds(0.1f);
             }
             if (ReturnAfter)
             {
-                MoveTo(PatrolWay.Waypoints[0], default, Patrol);
+                MoveTo(ChaseStartPlace, default, Patrol);
             }
             else { Patrol(); }
         }
