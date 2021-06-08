@@ -135,6 +135,7 @@ public class EnemyBase : EntityBase
     int CurrentWaypoint = 0;
     protected void Patrol()
     {
+        Debug.Log(PatrolMethod);
         if(PatrolMethod == PatrolMode.StandStill) { return; }
         else if (PatrolMethod == PatrolMode.Path)
         {
@@ -145,9 +146,12 @@ public class EnemyBase : EntityBase
         }
         else
         {
-            StartCoroutine(PatrolMove());
+            Debug.Log("Start");
+            StartCoroutine(PatrolMove()); // Somewhat code dont reach this point
+            Debug.Log("End");
             IEnumerator PatrolMove()
             {
+                Debug.Log("Corutine");
                 Move(transform.right);
                 int Mask =~ LayerMask.GetMask("Ignore Raycast", "Door");
                 Collider2D Wall = Physics2D.OverlapCircle(transform.position + transform.right, 0.1f);
@@ -157,7 +161,7 @@ public class EnemyBase : EntityBase
                     yield return WaitForLookAt();
                 }
                 yield return new WaitForFixedUpdate();
-                if (IsStoped() && !Locked) { Patrol(); }
+                Patrol();
             }
             IEnumerator WaitForLookAt()
             {
@@ -248,6 +252,7 @@ public class EnemyBase : EntityBase
     }
     public override void OnEnable()
     {
+        Debug.Log("Enemy on enable");
         base.OnEnable();
         PickUpGun(DefaultGun);
         DefaultGun = null;
