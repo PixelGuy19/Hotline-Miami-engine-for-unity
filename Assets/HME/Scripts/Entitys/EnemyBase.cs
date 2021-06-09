@@ -7,7 +7,7 @@ public class EnemyBase : EntityBase
 {
     private void OnValidate()
     {
-        if (RefoundTime <= 0) { RefoundTime += 0.01f; }
+        if (RefoundTime <= 0) { RefoundTime = 0.01f; }
     }
 
     Vector2 LastTargetPos;
@@ -17,7 +17,7 @@ public class EnemyBase : EntityBase
     [SerializeField]
     bool DoorUnstandable = false;
     [SerializeField]
-    float LookingDistance = 7;
+    float LookingDistance = 10;
 
     /// <summary>
     /// Look around to see if I see objects
@@ -75,11 +75,11 @@ public class EnemyBase : EntityBase
             Seeker.StartPath(MyBody.position, Position, (Path Path) =>
             {
                 if (MovingCoroutine != null) { ForcedStop(); }
-                MovingCoroutine = StartCoroutine(AIMove(Path));
+                MovingCoroutine = StartCoroutine(PathMove(Path));
             });
         }
 
-        IEnumerator AIMove(Path CurrentPath)
+        IEnumerator PathMove(Path CurrentPath)
         {
             IsMoving = true;
 
@@ -101,13 +101,16 @@ public class EnemyBase : EntityBase
             OnReached?.Invoke();
         }
     }
-    protected void ShootTo(Vector2 Position)
+    [SerializeField]
+    float ShootSlowDown = 0.1f;
+    protected IEnumerator ShootTo(Vector2 Position)
     {
-        if (GunInHands == null) { return; }
+        if (GunInHands == null) { yield break; }
+        yield return new WaitForSeconds(ShootSlowDown);
         LookAt(Position);
         if (Mathf.Abs(Mathf.DeltaAngle(transform.rotation.eulerAngles.z, Angle)) //Angle to rotate
             < GunInHands.Spread / 2) //Half of spread degrees
-        {
+        {            
             Shoot();
         }
     }
@@ -133,10 +136,12 @@ public class EnemyBase : EntityBase
 
     public PatrolMode PatrolMethod;
     int CurrentWaypoint = 0;
+    bool PatrolPaused = false;
     protected void Patrol()
     {
-        Debug.Log(PatrolMethod);
-        if(PatrolMethod == PatrolMode.StandStill) { return; }
+        PatrolPaused = false;
+
+        if (PatrolMethod == PatrolMode.StandStill) { return; }
         else if (PatrolMethod == PatrolMode.Path)
         {
             CurrentWaypoint++;
@@ -146,30 +151,28 @@ public class EnemyBase : EntityBase
         }
         else
         {
-            Debug.Log("Start");
-            StartCoroutine(PatrolMove()); // Somewhat code dont reach this point
-            Debug.Log("End");
+            StartCoroutine(PatrolMove());
             IEnumerator PatrolMove()
             {
-                Debug.Log("Corutine");
                 Move(transform.right);
                 int Mask =~ LayerMask.GetMask("Ignore Raycast", "Door");
                 Collider2D Wall = Physics2D.OverlapCircle(transform.position + transform.right, 0.1f);
                 if (Wall != null)
                 {
                     Angle = transform.eulerAngles.z - 90;
+                    Move(0, 0);
                     yield return WaitForLookAt();
-                }
+                }         
                 yield return new WaitForFixedUpdate();
-                Patrol();
+                yield return new WaitWhile(() => PatrolPaused);
+                Patrol();                
             }
-            IEnumerator WaitForLookAt()
-            {
-                Move(0, 0);
-                yield return new WaitWhile(() => 
-                Mathf.Round(Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.z, Angle))) > 0);
-            }
-        }        
+        }
+    }
+    IEnumerator WaitForLookAt()
+    {
+        yield return new WaitWhile(() =>
+        Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.z, Angle)) > 0);
     }
 
     [SerializeField]
@@ -177,10 +180,10 @@ public class EnemyBase : EntityBase
     [SerializeField]
     bool ReturnAfter = true;
     [SerializeField]
-    float RecheckTime = 0.5f;
+    float RecheckTime = 0.01f;
     [SerializeField]
     Way PatrolWay = default;
-    IEnumerator Srategy() //И так, осталось допилить остальную функциональность
+    IEnumerator Srategy() //И так, осталось допилить остальную функциональность //Stop patrol problem
     {
         bool NewTargetPosFounded = false;
         Vector2 ChaseStartPlace = transform.position;
@@ -190,16 +193,17 @@ public class EnemyBase : EntityBase
         {
             if (NewTargetPosFounded)
             {
-                yield return new WaitForSeconds(RecheckTime);
+                yield return new WaitForSeconds(RecheckTime); //it's important
 
                 StartCoroutine(Research());
                 if (NewTargetPosFounded)
                 {
+                    PatrolPaused = true;
                     if (GunInHands != null) 
                     {
                         if (DistanceToLastTargetPos < LookingDistance)
                         {
-                            ShootTo(LastTargetPos);
+                            StartCoroutine(ShootTo(LastTargetPos));
                         }
                         if (DistanceToLastTargetPos > GunInHands.MinShootDistance)
                         {
@@ -235,9 +239,10 @@ public class EnemyBase : EntityBase
                 }
                 yield return new WaitForSeconds(0.1f);
             }
+
             if (ReturnAfter)
             {
-                MoveTo(ChaseStartPlace, default, Patrol);
+                MoveTo(ChaseStartPlace, default, Patrol);                
             }
             else { Patrol(); }
         }
@@ -252,12 +257,12 @@ public class EnemyBase : EntityBase
     }
     public override void OnEnable()
     {
-        Debug.Log("Enemy on enable");
         base.OnEnable();
         PickUpGun(DefaultGun);
         DefaultGun = null;
         StartCoroutine(Srategy());
         if (GunInHands != null) { MyAnim.Play(GunInHands.InHands.Moving); }
+        PatrolPaused = false;
         Patrol();
     }
 

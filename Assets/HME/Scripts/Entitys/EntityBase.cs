@@ -209,7 +209,7 @@ public class EntityBase : MonoBehaviour
     {
         GunToPickUp = null;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, Angle), Time.fixedDeltaTime * RotationSpeed);
-        if (Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.z, Angle)) < 5)
+        if (Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.z, Angle)) < 20)
         {
             transform.rotation = Quaternion.Euler(0, 0, Angle);
         }
