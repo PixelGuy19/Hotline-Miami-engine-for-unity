@@ -101,16 +101,13 @@ public class EnemyBase : EntityBase
             OnReached?.Invoke();
         }
     }
-    [SerializeField]
-    float ShootSlowDown = 0.1f;
     protected IEnumerator ShootTo(Vector2 Position)
     {
         if (GunInHands == null) { yield break; }
-        yield return new WaitForSeconds(ShootSlowDown);
         LookAt(Position);
         if (Mathf.Abs(Mathf.DeltaAngle(transform.rotation.eulerAngles.z, Angle)) //Angle to rotate
             < GunInHands.Spread / 2) //Half of spread degrees
-        {            
+        {
             Shoot();
         }
     }
@@ -183,6 +180,7 @@ public class EnemyBase : EntityBase
     float RecheckTime = 0.01f;
     [SerializeField]
     Way PatrolWay = default;
+    int ResearchCorutinesCount = 0;
     IEnumerator Srategy() //И так, осталось допилить остальную функциональность //Stop patrol problem
     {
         bool NewTargetPosFounded = false;
@@ -193,9 +191,8 @@ public class EnemyBase : EntityBase
         {
             if (NewTargetPosFounded)
             {
-                yield return new WaitForSeconds(RecheckTime); //it's important
+                yield return new WaitForSeconds(RecheckTime); //look and if loose it try again
 
-                StartCoroutine(Research());
                 if (NewTargetPosFounded)
                 {
                     PatrolPaused = true;
@@ -221,8 +218,14 @@ public class EnemyBase : EntityBase
                 }
                 else
                 {
-                    MoveTo(LastTargetPos);
+                    MoveTo(LastTargetPos, default);
+                    yield return new WaitWhile(() => !IsStoped()); //Wait for reach the way
+                    yield return Research(); //Try to refind player
                 }
+            }
+            else
+            {
+                ChaseStartPlace = transform.position;
             }
             
             yield return new WaitForEndOfFrame();
@@ -233,8 +236,7 @@ public class EnemyBase : EntityBase
             for (float i = 0; i < RefoundTime; i += 0.1f)
             {
                 if (NewTargetPosFounded)
-                {
-                    ChaseStartPlace = transform.position;
+                {          
                     yield break;
                 }
                 yield return new WaitForSeconds(0.1f);
@@ -242,7 +244,8 @@ public class EnemyBase : EntityBase
 
             if (ReturnAfter)
             {
-                MoveTo(ChaseStartPlace, default, Patrol);                
+                Debug.Log(ChaseStartPlace);
+                MoveTo(ChaseStartPlace, default, Patrol);
             }
             else { Patrol(); }
         }
